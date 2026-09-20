@@ -7,6 +7,6 @@ const userSchema = new Schema({
     token: {type: String}
 })
 
-const User = new model("User", userSchema)
+const User = new model("User", userSchema) 
 
 export {User}
