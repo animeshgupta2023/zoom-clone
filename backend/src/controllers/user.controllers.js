@@ -23,7 +23,10 @@ const login = async(req, res)=>{
 
             user.token = token
             await user.save()
-            return res.status(httpStatus.OK).json({token: token})
+            return res.status(httpStatus.OK).json({token: token, message: "logged in"})
+        }
+        else{
+            return res.status(httpStatus.UNAUTHORIZED).json({'message': "wrong password"})
         }
     } catch(e){
         return res.status(500).json({message: `Something went wrong ${e}`})
