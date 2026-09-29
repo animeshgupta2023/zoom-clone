@@ -27,7 +27,7 @@ app.get("/home", (req, res)=>{
     return res.json({"hello": "world"})
 })
 
-app.listen(8080, ()=>{
+server.listen(8080, ()=>{
     console.log("listening at port 8080")
     connectDB()
 })
@@ -37,6 +37,6 @@ const connectDB = async ()=>{
         await mongoose.connect(URI)
         console.log("Connected with database")
     } catch(err){
-        console.log("Failed to connect with Db", err)
+        console.log("Failed to connect with Db", err) 
     }
 }

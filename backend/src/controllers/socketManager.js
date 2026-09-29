@@ -15,7 +15,8 @@ export const connectToSocket = (server)=>{
     }) 
 
     io.on("connection", (socket)=>{
-
+        
+        console.log("SOMETHING CONNECTED")
 
         socket.on("join-call", (path)=>{
             if(connections[path] === undefined){
@@ -37,9 +38,13 @@ export const connectToSocket = (server)=>{
             }
         })
 
+
+
         socket.on("signal", (toId, message)=>{
             io.to(toId).emit("signal", socket.id, message)
         })
+
+        
 
         socket.on("chat-message", (data, sender)=>{
             
@@ -57,7 +62,7 @@ export const connectToSocket = (server)=>{
                     messages[matchingRoom] = []
                 }
                 messages[matchingRoom].push({'sender':sender, 'data': data, 'socket-id-sender': socket.id})
-                console.log("message", key, ":", sender, data)
+                console.log("message", matchingRoom, ":", sender, data)
 
                 connections[matchingRoom].forEach((elem)=>{
                     io.to(elem).emit("chat-message", data, sender, socket.id)
@@ -74,9 +79,9 @@ export const connectToSocket = (server)=>{
                 for(let a = 0; a < v.length; a++){
                     if(v[a] === socket.id){
                         key = k
-                        for(let a = 0; connections[key].length; a++){
+                        for(let a = 0; a < connections[key].length; a++){
                             io.to(connections[key][a]).emit('user-left', socket.id)
-                        }
+                        } 
                         let index = connections[key].indexOf(socket.id)
 
                         connections[key].splice(index, 1)
